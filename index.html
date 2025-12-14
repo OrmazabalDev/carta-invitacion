@@ -46,13 +46,15 @@
 
 <body class="bg-cream font-sans text-secondary antialiased h-[100dvh] overflow-hidden flex flex-col items-center relative">
 
-  <main class="w-full max-w-[420px] h-full flex flex-col justify-start gap-2 px-5 py-3 z-10 transition-all duration-300" id="mainContent">
+  <!-- Aumenté el gap principal a gap-3 y el padding vertical a py-4 para dar más aire -->
+  <main class="w-full max-w-[420px] h-full flex flex-col justify-start gap-3 px-6 py-4 z-10 transition-all duration-300" id="mainContent">
     
     <!-- ========================================== -->
     <!-- 1. CARRUSEL DE FOTOS (GALERÍA)             -->
     <!-- ========================================== -->
-    <div class="flex-1 relative min-h-0 flex flex-col justify-start w-full">
-      <div class="border border-gold p-2 pb-0 border-b-0 rounded-t-sm h-full max-h-[30vh] w-full relative">
+    <!-- Reduje max-h a 27vh para ganar espacio vertical para los textos -->
+    <div class="flex-1 relative min-h-0 flex flex-col justify-start w-full shrink-0">
+      <div class="border border-gold p-2 pb-0 border-b-0 rounded-t-sm h-full max-h-[27vh] w-full relative shadow-sm">
         <div class="w-full h-full overflow-hidden rounded-sm relative" id="sliderContainer">
             
             <div class="flex h-full transition-transform duration-500 ease-out slider-track" id="sliderTrack">
@@ -106,20 +108,21 @@
     <!-- ========================================== -->
     <!-- 2. REPRODUCTOR DE MÚSICA (TIPO TARJETA)    -->
     <!-- ========================================== -->
-    <div class="w-full shrink-0 flex justify-center items-center -mt-3 mb-2 z-20 px-6">
+    <!-- Aumenté el margen inferior mb-3 -->
+    <div class="w-full shrink-0 flex justify-center items-center -mt-4 mb-3 z-20 px-2">
         <!-- Audio oculto, src se asigna en JS -->
         <audio id="bgMusic" loop></audio>
         
-        <div class="bg-white/95 backdrop-blur-md border border-gold/40 rounded-xl shadow-sm py-2 px-4 flex items-center justify-between gap-3 w-full max-w-sm transform transition-all">
+        <div class="bg-white/95 backdrop-blur-md border border-gold/40 rounded-xl shadow-md py-3 px-5 flex items-center justify-between gap-4 w-full max-w-sm transform transition-all hover:scale-[1.02]">
             <div class="flex flex-col min-w-0">
-                <span class="text-[8px] uppercase tracking-[0.2em] text-gold font-bold flex items-center gap-1.5 mb-0.5">
+                <span class="text-[9px] uppercase tracking-[0.2em] text-gold font-bold flex items-center gap-1.5 mb-1">
                     <i class="fa-solid fa-music"></i> Nuestra canción
                 </span>
-                <span class="text-xs text-primary font-serif font-medium truncate block">Somewhere Over The Rainbow</span>
+                <span class="text-sm text-primary font-serif font-medium truncate block leading-tight">Somewhere Over The Rainbow</span>
             </div>
             
-            <button onclick="toggleMusic()" id="musicBtn" class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shrink-0 shadow-md hover:bg-accent hover:shadow-lg transition-all active:scale-95 group">
-                <i class="fa-solid fa-play text-[10px] ml-0.5 group-hover:scale-110 transition-transform" id="musicIcon"></i>
+            <button onclick="toggleMusic()" id="musicBtn" class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shrink-0 shadow-md hover:bg-accent hover:shadow-lg transition-all active:scale-95 group">
+                <i class="fa-solid fa-play text-xs ml-0.5 group-hover:scale-110 transition-transform" id="musicIcon"></i>
             </button>
         </div>
     </div>
@@ -127,90 +130,92 @@
     <!-- ========================================== -->
     <!-- 3. ENCABEZADO (Nombres y Fecha)            -->
     <!-- ========================================== -->
-    <header class="text-center shrink-0 w-full -mt-1">
-      <h1 class="font-serif text-4xl text-primary leading-none mb-1 tracking-tight" id="txtNombres">Cargando...</h1>
-      <div class="text-xs font-bold uppercase tracking-[0.2em] text-gray-600 mb-1" id="txtFechaTexto">Cargando...</div>
-      <p class="font-serif italic text-sm text-gray-500" id="txtFrase">“Nos elegimos para siempre”</p>
+    <header class="text-center shrink-0 w-full mb-2">
+      <h1 class="font-serif text-[2.5rem] text-primary leading-none mb-2 tracking-tight" id="txtNombres">Cargando...</h1>
+      <div class="text-xs font-bold uppercase tracking-[0.25em] text-gray-500 mb-2" id="txtFechaTexto">Cargando...</div>
+      <p class="font-serif italic text-sm text-gray-400" id="txtFrase">“Nos elegimos para siempre”</p>
     </header>
 
     <!-- ========================================== -->
     <!-- 4. DETALLES (Ceremonia y Recepción)        -->
     <!-- ========================================== -->
-    <section class="grid grid-cols-2 gap-3 shrink-0 w-full">
+    <!-- Aumenté el gap a gap-4 -->
+    <section class="grid grid-cols-2 gap-4 shrink-0 w-full mb-2">
       <!-- Ceremonia -->
-      <article class="bg-white p-3 rounded border border-gray-100 shadow-sm flex flex-col items-center text-center gap-1">
-        <div class="flex items-center gap-2">
+      <article class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col items-center text-center gap-2 hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-2 mt-1">
             <i class="fa-solid fa-church text-gold text-sm"></i>
             <h3 class="font-serif text-base text-primary font-bold">Ceremonia</h3>
         </div>
-        <p class="text-sm text-gray-600 font-medium mb-1" id="txtHoraCeremonia">12:00 HRS</p>
-        <button onclick="abrirMapa(CONFIG.ubicacionCeremonia)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[10px] font-bold py-1.5 px-2 rounded transition-colors flex items-center justify-center gap-1">
+        <p class="text-sm text-gray-600 font-medium" id="txtHoraCeremonia">12:00 HRS</p>
+        <button onclick="abrirMapa(CONFIG.ubicacionCeremonia)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[10px] font-bold py-2 px-2 rounded transition-colors flex items-center justify-center gap-1 mt-1">
             <i class="fa-solid fa-location-dot"></i> VER MAPA
         </button>
       </article>
 
       <!-- Recepción -->
-      <article class="bg-white p-3 rounded border border-gray-100 shadow-sm flex flex-col items-center text-center gap-1">
-        <div class="flex items-center gap-2">
+      <article class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col items-center text-center gap-2 hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-2 mt-1">
             <i class="fa-solid fa-glass-cheers text-gold text-sm"></i>
             <h3 class="font-serif text-base text-primary font-bold">Recepción</h3>
         </div>
-        <p class="text-sm text-gray-600 font-medium mb-1" id="txtHoraRecepcion">13:00 HRS</p>
-        <button onclick="abrirMapa(CONFIG.ubicacionRecepcion)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[10px] font-bold py-1.5 px-2 rounded transition-colors flex items-center justify-center gap-1">
+        <p class="text-sm text-gray-600 font-medium" id="txtHoraRecepcion">13:00 HRS</p>
+        <button onclick="abrirMapa(CONFIG.ubicacionRecepcion)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[10px] font-bold py-2 px-2 rounded transition-colors flex items-center justify-center gap-1 mt-1">
             <i class="fa-solid fa-location-dot"></i> VER MAPA
         </button>
       </article>
     </section>
 
     <!-- ========================================== -->
-    <!-- 5. BOTÓN RSVP (MODIFICADO: Abre Modal)     -->
+    <!-- 5. BOTÓN RSVP (Formulario)                 -->
     <!-- ========================================== -->
-    <section class="w-full shrink-0 text-center">
+    <section class="w-full shrink-0 text-center mb-3">
       <!-- Cambiado de abrirFormulario() a toggleModal('modalRSVP') -->
-      <button onclick="toggleModal('modalRSVP')" class="w-full bg-primary text-white py-3.5 rounded shadow-lg hover:bg-opacity-90 transition active:scale-[0.98] flex justify-center items-center gap-2 text-sm font-bold uppercase tracking-wider border border-accent">
-        <i class="fa-solid fa-envelope-open-text text-base"></i> Responder Invitación
+      <button onclick="toggleModal('modalRSVP')" class="w-full bg-primary text-white py-4 rounded-xl shadow-lg hover:bg-opacity-90 transition active:scale-[0.98] flex justify-center items-center gap-3 text-sm font-bold uppercase tracking-wider border border-accent">
+        <i class="fa-solid fa-envelope-open-text text-lg"></i> Responder Invitación
       </button>
-      <p class="text-[10px] text-gray-500 mt-1 italic" id="txtFechaLimite">Fecha límite: ...</p>
+      <p class="text-[10px] text-gray-400 mt-2 italic tracking-wide" id="txtFechaLimite">Fecha límite: ...</p>
     </section>
 
     <!-- ========================================== -->
     <!-- 6. BARRA DE UTILIDADES                     -->
     <!-- ========================================== -->
-    <section class="flex justify-around items-center shrink-0 w-full px-2 border-t border-b border-gray-100 py-2 bg-white/50 backdrop-blur-sm rounded-lg">
-      <button onclick="agendarCalendar()" class="flex flex-col items-center gap-1 group w-1/3">
-        <div class="w-9 h-9 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition">
+    <!-- Aumenté padding a py-3 -->
+    <section class="flex justify-around items-center shrink-0 w-full px-2 border-t border-b border-gray-100 py-3 bg-white/60 backdrop-blur-sm rounded-xl mb-1">
+      <button onclick="agendarCalendar()" class="flex flex-col items-center gap-1.5 group w-1/3">
+        <div class="w-10 h-10 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition shadow-sm">
           <i class="fa-regular fa-calendar-plus text-sm"></i>
         </div>
-        <span class="text-[10px] font-medium uppercase tracking-wide">Agendar</span>
+        <span class="text-[9px] font-bold uppercase tracking-wide text-gray-500 group-hover:text-accent">Agendar</span>
       </button>
       
-      <button onclick="toggleModal('modalRegalos')" class="flex flex-col items-center gap-1 group w-1/3">
-        <div class="w-9 h-9 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition">
+      <button onclick="toggleModal('modalRegalos')" class="flex flex-col items-center gap-1.5 group w-1/3">
+        <div class="w-10 h-10 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition shadow-sm">
           <i class="fa-solid fa-gift text-sm"></i>
         </div>
-        <span class="text-[10px] font-medium uppercase tracking-wide">Regalos</span>
+        <span class="text-[9px] font-bold uppercase tracking-wide text-gray-500 group-hover:text-accent">Regalos</span>
       </button>
       
-      <button onclick="toggleModal('modalDress')" class="flex flex-col items-center gap-1 group w-1/3">
-        <div class="w-9 h-9 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition">
+      <button onclick="toggleModal('modalDress')" class="flex flex-col items-center gap-1.5 group w-1/3">
+        <div class="w-10 h-10 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition shadow-sm">
           <i class="fa-solid fa-shirt text-sm"></i>
         </div>
-        <span class="text-[10px] font-medium uppercase tracking-wide">Etiqueta</span>
+        <span class="text-[9px] font-bold uppercase tracking-wide text-gray-500 group-hover:text-accent">Etiqueta</span>
       </button>
     </section>
 
     <!-- ========================================== -->
     <!-- 7. CONTADOR                                -->
     <!-- ========================================== -->
-    <footer class="shrink-0 w-full pt-1">
-      <div class="flex justify-center items-center text-center space-x-4 text-primary">
-        <div><span class="block font-serif text-2xl leading-none font-bold" id="days">00</span><span class="text-[10px] text-gray-500 uppercase font-medium">Días</span></div>
-        <div class="w-px h-6 bg-gray-200"></div>
-        <div><span class="block font-serif text-2xl leading-none font-bold" id="hours">00</span><span class="text-[10px] text-gray-500 uppercase font-medium">Hs</span></div>
-        <div class="w-px h-6 bg-gray-200"></div>
-        <div><span class="block font-serif text-2xl leading-none font-bold" id="minutes">00</span><span class="text-[10px] text-gray-500 uppercase font-medium">Min</span></div>
-        <div class="w-px h-6 bg-gray-200"></div>
-        <div><span class="block font-serif text-2xl leading-none font-bold" id="seconds">00</span><span class="text-[10px] text-gray-500 uppercase font-medium">Seg</span></div>
+    <footer class="shrink-0 w-full pt-2 pb-1">
+      <div class="flex justify-center items-center text-center space-x-5 text-primary">
+        <div><span class="block font-serif text-2xl leading-none font-bold" id="days">00</span><span class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Días</span></div>
+        <div class="w-px h-8 bg-gray-200"></div>
+        <div><span class="block font-serif text-2xl leading-none font-bold" id="hours">00</span><span class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Hs</span></div>
+        <div class="w-px h-8 bg-gray-200"></div>
+        <div><span class="block font-serif text-2xl leading-none font-bold" id="minutes">00</span><span class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Min</span></div>
+        <div class="w-px h-8 bg-gray-200"></div>
+        <div><span class="block font-serif text-2xl leading-none font-bold" id="seconds">00</span><span class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Seg</span></div>
       </div>
     </footer>
   </main>
