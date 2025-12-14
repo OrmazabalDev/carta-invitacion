@@ -143,7 +143,7 @@
             <h3 class="font-serif text-sm text-primary font-bold">Ceremonia</h3>
         </div>
         <p class="text-xs text-gray-600 font-medium" id="txtHoraCeremonia">12:00 HRS</p>
-        <button onclick="abrirMapa(CONFIG.ubicacionCeremonia)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[9px] font-bold py-1.5 px-2 rounded transition-colors flex items-center justify-center gap-1 mt-0.5">
+        <button onclick="abrirMapa(CONFIG.mapaCeremonia)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[9px] font-bold py-1.5 px-2 rounded transition-colors flex items-center justify-center gap-1 mt-0.5">
             <i class="fa-solid fa-location-dot"></i> VER MAPA
         </button>
       </article>
@@ -154,7 +154,7 @@
             <h3 class="font-serif text-sm text-primary font-bold">Recepción</h3>
         </div>
         <p class="text-xs text-gray-600 font-medium" id="txtHoraRecepcion">13:00 HRS</p>
-        <button onclick="abrirMapa(CONFIG.ubicacionRecepcion)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[9px] font-bold py-1.5 px-2 rounded transition-colors flex items-center justify-center gap-1 mt-0.5">
+        <button onclick="abrirMapa(CONFIG.mapaRecepcion)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[9px] font-bold py-1.5 px-2 rounded transition-colors flex items-center justify-center gap-1 mt-0.5">
             <i class="fa-solid fa-location-dot"></i> VER MAPA
         </button>
       </article>
@@ -286,10 +286,20 @@
       horaCeremonia: "12:00 HRS",
       horaRecepcion: "13:00 HRS",
       
+      // Direcciones Completas
+      direccionCeremonia: "Capilla Sagrado Corazón de Jesús, Av. San Martín 2954, Mendoza, Argentina",
+      direccionRecepcion: "Salón La Arboleda, Barrio La Arboleda, Manzana A Casa 38, Lumiere 3792, Las Heras, Mendoza, Argentina",
+
       formURL: "https://docs.google.com/forms/d/e/1FAIpQLSeslgqDz3KM_9Ea8DcuAM-aocgv7IOvFu8Ya4vESZK7wx2lQA/viewform?embedded=true", 
-      ubicacionCeremonia: "https://maps.app.goo.gl/z4ncCPSHoEyiRca29", 
-      ubicacionRecepcion: "https://maps.app.goo.gl/kb1Vhqc2aUZjLNke9",
-      musicaURL: "Somewhere over the Rainbow.mp3" 
+      musicaURL: "Somewhere over the Rainbow.mp3",
+      
+      // URLs de Mapas (Generados dinámicamente como Búsqueda para evitar errores)
+      get mapaCeremonia() {
+          return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(this.direccionCeremonia);
+      },
+      get mapaRecepcion() {
+          return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(this.direccionRecepcion);
+      }
     };
 
     function abrirMapa(url) {
@@ -339,8 +349,19 @@
       const start = CONFIG.fechaBodaObjeto.toISOString().replace(/-|:|\.\d\d\d/g, "").slice(0, 15); 
       const endDate = new Date(CONFIG.fechaBodaObjeto.getTime() + (10 * 60 * 60 * 1000));
       const end = endDate.toISOString().replace(/-|:|\.\d\d\d/g, "").slice(0, 15);
-      const detalles = `Celebración de nuestra boda. ¡Los esperamos en ${CONFIG.ubicacionRecepcion}!`;
-      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Boda " + CONFIG.nombres)}&dates=${start}/${end}&details=${encodeURIComponent(detalles)}&location=${encodeURIComponent(CONFIG.ubicacionCeremonia)}`;
+      
+      // Detalles completos para la descripción del evento
+      const descripcion = `¡Celebra con nosotros nuestra boda!
+      
+❤️ Ceremonia: 12:00 hrs
+📍 ${CONFIG.direccionCeremonia}
+
+🥂 Recepción: 13:00 hrs
+📍 ${CONFIG.direccionRecepcion}
+
+¡Los esperamos!`;
+
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Boda " + CONFIG.nombres)}&dates=${start}/${end}&details=${encodeURIComponent(descripcion)}&location=${encodeURIComponent(CONFIG.direccionCeremonia)}`;
       window.open(url, '_blank');
     }
 
