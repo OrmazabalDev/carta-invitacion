@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <!-- Configuración para móviles: evita zoom innecesario y asegura ajuste perfecto -->
+  <!-- BLOQUEO DE ZOOM: user-scalable=no y touch-action: manipulation -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Invitación de Boda</title>
 
@@ -17,11 +17,11 @@
       theme: {
         extend: {
           colors: {
-            cream: '#FAF9F6',      // Fondo principal
-            primary: '#2F4F4F',    // Color de textos principales (Verde oscuro)
-            accent: '#4A5D4F',     // Color de botones y detalles
-            gold: '#D4C4A8',       // Color dorado para bordes e iconos
-            secondary: '#555555',  // Texto secundario (Gris)
+            cream: '#FAF9F6',
+            primary: '#2F4F4F',
+            accent: '#4A5D4F',
+            gold: '#D4C4A8',
+            secondary: '#555555',
           },
           fontFamily: {
             serif: ['"Playfair Display"', 'serif'],
@@ -33,8 +33,14 @@
   </script>
 
   <style>
-    /* Bloquea el rebote en iOS */
-    body { overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
+    /* Bloquea el rebote en iOS y la selección de texto */
+    body { 
+        overscroll-behavior: none; 
+        -webkit-tap-highlight-color: transparent;
+        user-select: none; /* No seleccionar texto */
+        -webkit-user-select: none; /* Safari */
+        touch-action: pan-y; /* Permite scroll vertical pero bloquea zoom */
+    }
     
     /* Animaciones */
     .modal-enter { opacity: 0; transform: scale(0.95); pointer-events: none; }
@@ -44,61 +50,53 @@
   </style>
 </head>
 
-<body class="bg-cream font-sans text-secondary antialiased h-[100dvh] overflow-hidden flex flex-col items-center relative">
+<!-- Agregamos 'select-none' para prevenir copia en todo el cuerpo -->
+<body class="bg-cream font-sans text-secondary antialiased h-[100dvh] overflow-hidden flex flex-col items-center relative select-none">
 
-  <!-- Aumenté el gap principal a gap-3 y el padding vertical a py-4 para dar más aire -->
-  <main class="w-full max-w-[420px] h-full flex flex-col justify-start gap-3 px-6 py-4 z-10 transition-all duration-300" id="mainContent">
+  <!-- Reduje padding vertical (py-2) y gap (gap-2) para compactar -->
+  <main class="w-full max-w-[420px] h-full flex flex-col justify-start gap-2 px-5 py-2 z-10 transition-all duration-300" id="mainContent">
     
     <!-- ========================================== -->
     <!-- 1. CARRUSEL DE FOTOS (GALERÍA)             -->
     <!-- ========================================== -->
-    <!-- Reduje max-h a 27vh para ganar espacio vertical para los textos -->
+    <!-- Reduje la altura máxima a 25vh para ganar espacio -->
     <div class="flex-1 relative min-h-0 flex flex-col justify-start w-full shrink-0">
-      <div class="border border-gold p-2 pb-0 border-b-0 rounded-t-sm h-full max-h-[27vh] w-full relative shadow-sm">
+      <div class="border border-gold p-1.5 pb-0 border-b-0 rounded-t-sm h-full max-h-[25vh] w-full relative shadow-sm">
         <div class="w-full h-full overflow-hidden rounded-sm relative" id="sliderContainer">
             
             <div class="flex h-full transition-transform duration-500 ease-out slider-track" id="sliderTrack">
-                
                 <!-- FOTO 1 -->
                 <div class="w-full h-full flex-shrink-0 bg-gray-200">
                     <img src="galeria/IMG-20251214-WA0003.jpg" 
-                         alt="Foto 1"
-                         class="w-full h-full object-cover object-top select-none pointer-events-none"
+                         alt="Foto 1" class="w-full h-full object-cover object-top select-none pointer-events-none"
                          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1628126786638-73599026d36e?q=80&w=1000&auto=format&fit=crop'">
                 </div>
-
                 <!-- FOTO 2 -->
                 <div class="w-full h-full flex-shrink-0 bg-gray-200">
                     <img src="galeria/IMG-20251214-WA0004.jpg" 
-                         alt="Foto 2"
-                         class="w-full h-full object-cover object-center select-none pointer-events-none"
+                         alt="Foto 2" class="w-full h-full object-cover object-center select-none pointer-events-none"
                          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1000&auto=format&fit=crop'">
                 </div>
-
                 <!-- FOTO 3 -->
                 <div class="w-full h-full flex-shrink-0 bg-gray-200">
                     <img src="galeria/IMG-20251214-WA0005.jpg" 
-                         alt="Foto 3"
-                         class="w-full h-full object-cover object-center select-none pointer-events-none"
+                         alt="Foto 3" class="w-full h-full object-cover object-center select-none pointer-events-none"
                          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=1000&auto=format&fit=crop'">
                 </div>
-
                 <!-- FOTO 4 -->
                 <div class="w-full h-full flex-shrink-0 bg-gray-200">
                     <img src="galeria/IMG-20251214-WA0006.jpg" 
-                         alt="Foto 4"
-                         class="w-full h-full object-cover object-center select-none pointer-events-none"
+                         alt="Foto 4" class="w-full h-full object-cover object-center select-none pointer-events-none"
                          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511285560982-1351cdeb9821?q=80&w=1000&auto=format&fit=crop'">
                 </div>
-
             </div>
 
-            <!-- Puntos indicadores -->
-            <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-2 z-10" id="sliderDots">
-                <button class="w-2 h-2 rounded-full bg-white transition-all duration-300 shadow opacity-100 scale-110" data-index="0"></button>
-                <button class="w-2 h-2 rounded-full bg-white/60 transition-all duration-300 shadow hover:bg-white" data-index="1"></button>
-                <button class="w-2 h-2 rounded-full bg-white/60 transition-all duration-300 shadow hover:bg-white" data-index="2"></button>
-                <button class="w-2 h-2 rounded-full bg-white/60 transition-all duration-300 shadow hover:bg-white" data-index="3"></button>
+            <!-- Indicadores -->
+            <div class="absolute bottom-2 left-0 right-0 flex justify-center gap-2 z-10" id="sliderDots">
+                <button class="w-1.5 h-1.5 rounded-full bg-white transition-all duration-300 shadow opacity-100 scale-110" data-index="0"></button>
+                <button class="w-1.5 h-1.5 rounded-full bg-white/60 transition-all duration-300 shadow hover:bg-white" data-index="1"></button>
+                <button class="w-1.5 h-1.5 rounded-full bg-white/60 transition-all duration-300 shadow hover:bg-white" data-index="2"></button>
+                <button class="w-1.5 h-1.5 rounded-full bg-white/60 transition-all duration-300 shadow hover:bg-white" data-index="3"></button>
             </div>
             <div class="absolute inset-0 z-0" id="touchArea"></div>
         </div>
@@ -106,125 +104,119 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- 2. REPRODUCTOR DE MÚSICA (TIPO TARJETA)    -->
+    <!-- 2. REPRODUCTOR DE MÚSICA                   -->
     <!-- ========================================== -->
-    <!-- Aumenté el margen inferior mb-3 -->
-    <div class="w-full shrink-0 flex justify-center items-center -mt-4 mb-3 z-20 px-2">
-        <!-- Audio oculto, src se asigna en JS -->
+    <!-- Subí más el margen negativo (-mt-5) para que "muerda" más la foto -->
+    <div class="w-full shrink-0 flex justify-center items-center -mt-5 mb-1 z-20 px-2">
         <audio id="bgMusic" loop></audio>
-        
-        <div class="bg-white/95 backdrop-blur-md border border-gold/40 rounded-xl shadow-md py-3 px-5 flex items-center justify-between gap-4 w-full max-w-sm transform transition-all hover:scale-[1.02]">
+        <div class="bg-white/95 backdrop-blur-md border border-gold/40 rounded-full shadow-md py-2 px-4 flex items-center justify-between gap-3 w-full max-w-[90%] transform transition-all">
             <div class="flex flex-col min-w-0">
-                <span class="text-[9px] uppercase tracking-[0.2em] text-gold font-bold flex items-center gap-1.5 mb-1">
+                <span class="text-[8px] uppercase tracking-[0.2em] text-gold font-bold flex items-center gap-1">
                     <i class="fa-solid fa-music"></i> Nuestra canción
                 </span>
-                <span class="text-sm text-primary font-serif font-medium truncate block leading-tight">Somewhere Over The Rainbow</span>
+                <span class="text-xs text-primary font-serif font-medium truncate block leading-tight">Somewhere Over The Rainbow</span>
             </div>
-            
-            <button onclick="toggleMusic()" id="musicBtn" class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shrink-0 shadow-md hover:bg-accent hover:shadow-lg transition-all active:scale-95 group">
-                <i class="fa-solid fa-play text-xs ml-0.5 group-hover:scale-110 transition-transform" id="musicIcon"></i>
+            <button onclick="toggleMusic()" id="musicBtn" class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shrink-0 shadow-md hover:bg-accent hover:shadow-lg transition-all active:scale-95 group">
+                <i class="fa-solid fa-play text-[10px] ml-0.5 group-hover:scale-110 transition-transform" id="musicIcon"></i>
             </button>
         </div>
     </div>
 
     <!-- ========================================== -->
-    <!-- 3. ENCABEZADO (Nombres y Fecha)            -->
+    <!-- 3. ENCABEZADO                              -->
     <!-- ========================================== -->
-    <header class="text-center shrink-0 w-full mb-2">
-      <h1 class="font-serif text-[2.5rem] text-primary leading-none mb-2 tracking-tight" id="txtNombres">Cargando...</h1>
-      <div class="text-xs font-bold uppercase tracking-[0.25em] text-gray-500 mb-2" id="txtFechaTexto">Cargando...</div>
-      <p class="font-serif italic text-sm text-gray-400" id="txtFrase">“Nos elegimos para siempre”</p>
+    <header class="text-center shrink-0 w-full mb-1">
+      <!-- Reduje tamaño de fuente del título a text-4xl -->
+      <h1 class="font-serif text-4xl text-primary leading-none mb-1 tracking-tight" id="txtNombres">...</h1>
+      <div class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 mb-1" id="txtFechaTexto">...</div>
+      <p class="font-serif italic text-xs text-gray-400" id="txtFrase">...</p>
     </header>
 
     <!-- ========================================== -->
     <!-- 4. DETALLES (Ceremonia y Recepción)        -->
     <!-- ========================================== -->
-    <!-- Aumenté el gap a gap-4 -->
-    <section class="grid grid-cols-2 gap-4 shrink-0 w-full mb-2">
-      <!-- Ceremonia -->
-      <article class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col items-center text-center gap-2 hover:shadow-md transition-shadow">
-        <div class="flex items-center gap-2 mt-1">
-            <i class="fa-solid fa-church text-gold text-sm"></i>
-            <h3 class="font-serif text-base text-primary font-bold">Ceremonia</h3>
+    <!-- Gap reducido a gap-3 -->
+    <section class="grid grid-cols-2 gap-3 shrink-0 w-full mb-1">
+      <article class="bg-white p-2.5 rounded-lg border border-gray-100 shadow-sm flex flex-col items-center text-center gap-1 hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-1.5 mt-0.5">
+            <i class="fa-solid fa-church text-gold text-xs"></i>
+            <h3 class="font-serif text-sm text-primary font-bold">Ceremonia</h3>
         </div>
-        <p class="text-sm text-gray-600 font-medium" id="txtHoraCeremonia">12:00 HRS</p>
-        <button onclick="abrirMapa(CONFIG.ubicacionCeremonia)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[10px] font-bold py-2 px-2 rounded transition-colors flex items-center justify-center gap-1 mt-1">
+        <p class="text-xs text-gray-600 font-medium" id="txtHoraCeremonia">12:00 HRS</p>
+        <button onclick="abrirMapa(CONFIG.ubicacionCeremonia)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[9px] font-bold py-1.5 px-2 rounded transition-colors flex items-center justify-center gap-1 mt-0.5">
             <i class="fa-solid fa-location-dot"></i> VER MAPA
         </button>
       </article>
 
-      <!-- Recepción -->
-      <article class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm flex flex-col items-center text-center gap-2 hover:shadow-md transition-shadow">
-        <div class="flex items-center gap-2 mt-1">
-            <i class="fa-solid fa-glass-cheers text-gold text-sm"></i>
-            <h3 class="font-serif text-base text-primary font-bold">Recepción</h3>
+      <article class="bg-white p-2.5 rounded-lg border border-gray-100 shadow-sm flex flex-col items-center text-center gap-1 hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-1.5 mt-0.5">
+            <i class="fa-solid fa-glass-cheers text-gold text-xs"></i>
+            <h3 class="font-serif text-sm text-primary font-bold">Recepción</h3>
         </div>
-        <p class="text-sm text-gray-600 font-medium" id="txtHoraRecepcion">13:00 HRS</p>
-        <button onclick="abrirMapa(CONFIG.ubicacionRecepcion)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[10px] font-bold py-2 px-2 rounded transition-colors flex items-center justify-center gap-1 mt-1">
+        <p class="text-xs text-gray-600 font-medium" id="txtHoraRecepcion">13:00 HRS</p>
+        <button onclick="abrirMapa(CONFIG.ubicacionRecepcion)" class="w-full bg-primary/5 hover:bg-primary/10 text-primary text-[9px] font-bold py-1.5 px-2 rounded transition-colors flex items-center justify-center gap-1 mt-0.5">
             <i class="fa-solid fa-location-dot"></i> VER MAPA
         </button>
       </article>
     </section>
 
     <!-- ========================================== -->
-    <!-- 5. BOTÓN RSVP (Formulario)                 -->
+    <!-- 5. BOTÓN RSVP                              -->
     <!-- ========================================== -->
-    <section class="w-full shrink-0 text-center mb-3">
-      <!-- Cambiado de abrirFormulario() a toggleModal('modalRSVP') -->
-      <button onclick="toggleModal('modalRSVP')" class="w-full bg-primary text-white py-4 rounded-xl shadow-lg hover:bg-opacity-90 transition active:scale-[0.98] flex justify-center items-center gap-3 text-sm font-bold uppercase tracking-wider border border-accent">
-        <i class="fa-solid fa-envelope-open-text text-lg"></i> Responder Invitación
+    <section class="w-full shrink-0 text-center mb-1">
+      <button onclick="toggleModal('modalRSVP')" class="w-full bg-primary text-white py-3 rounded-xl shadow-lg hover:bg-opacity-90 transition active:scale-[0.98] flex justify-center items-center gap-2 text-xs font-bold uppercase tracking-wider border border-accent">
+        <i class="fa-solid fa-envelope-open-text text-base"></i> Responder Invitación
       </button>
-      <p class="text-[10px] text-gray-400 mt-2 italic tracking-wide" id="txtFechaLimite">Fecha límite: ...</p>
+      <p class="text-[9px] text-gray-400 mt-1.5 italic tracking-wide" id="txtFechaLimite">...</p>
     </section>
 
     <!-- ========================================== -->
     <!-- 6. BARRA DE UTILIDADES                     -->
     <!-- ========================================== -->
-    <!-- Aumenté padding a py-3 -->
-    <section class="flex justify-around items-center shrink-0 w-full px-2 border-t border-b border-gray-100 py-3 bg-white/60 backdrop-blur-sm rounded-xl mb-1">
-      <button onclick="agendarCalendar()" class="flex flex-col items-center gap-1.5 group w-1/3">
-        <div class="w-10 h-10 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition shadow-sm">
-          <i class="fa-regular fa-calendar-plus text-sm"></i>
+    <section class="flex justify-around items-center shrink-0 w-full px-2 border-t border-b border-gray-100 py-2 bg-white/60 backdrop-blur-sm rounded-xl mb-0.5">
+      <button onclick="agendarCalendar()" class="flex flex-col items-center gap-1 group w-1/3">
+        <div class="w-8 h-8 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition shadow-sm">
+          <i class="fa-regular fa-calendar-plus text-xs"></i>
         </div>
-        <span class="text-[9px] font-bold uppercase tracking-wide text-gray-500 group-hover:text-accent">Agendar</span>
+        <span class="text-[8px] font-bold uppercase tracking-wide text-gray-500 group-hover:text-accent">Agendar</span>
       </button>
       
-      <button onclick="toggleModal('modalRegalos')" class="flex flex-col items-center gap-1.5 group w-1/3">
-        <div class="w-10 h-10 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition shadow-sm">
-          <i class="fa-solid fa-gift text-sm"></i>
+      <button onclick="toggleModal('modalRegalos')" class="flex flex-col items-center gap-1 group w-1/3">
+        <div class="w-8 h-8 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition shadow-sm">
+          <i class="fa-solid fa-gift text-xs"></i>
         </div>
-        <span class="text-[9px] font-bold uppercase tracking-wide text-gray-500 group-hover:text-accent">Regalos</span>
+        <span class="text-[8px] font-bold uppercase tracking-wide text-gray-500 group-hover:text-accent">Regalos</span>
       </button>
       
-      <button onclick="toggleModal('modalDress')" class="flex flex-col items-center gap-1.5 group w-1/3">
-        <div class="w-10 h-10 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition shadow-sm">
-          <i class="fa-solid fa-shirt text-sm"></i>
+      <button onclick="toggleModal('modalDress')" class="flex flex-col items-center gap-1 group w-1/3">
+        <div class="w-8 h-8 rounded-full bg-gray-50 text-primary flex items-center justify-center border border-gray-200 group-hover:bg-accent group-hover:text-white transition shadow-sm">
+          <i class="fa-solid fa-shirt text-xs"></i>
         </div>
-        <span class="text-[9px] font-bold uppercase tracking-wide text-gray-500 group-hover:text-accent">Etiqueta</span>
+        <span class="text-[8px] font-bold uppercase tracking-wide text-gray-500 group-hover:text-accent">Etiqueta</span>
       </button>
     </section>
 
     <!-- ========================================== -->
     <!-- 7. CONTADOR                                -->
     <!-- ========================================== -->
-    <footer class="shrink-0 w-full pt-2 pb-1">
-      <div class="flex justify-center items-center text-center space-x-5 text-primary">
-        <div><span class="block font-serif text-2xl leading-none font-bold" id="days">00</span><span class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Días</span></div>
-        <div class="w-px h-8 bg-gray-200"></div>
-        <div><span class="block font-serif text-2xl leading-none font-bold" id="hours">00</span><span class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Hs</span></div>
-        <div class="w-px h-8 bg-gray-200"></div>
-        <div><span class="block font-serif text-2xl leading-none font-bold" id="minutes">00</span><span class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Min</span></div>
-        <div class="w-px h-8 bg-gray-200"></div>
-        <div><span class="block font-serif text-2xl leading-none font-bold" id="seconds">00</span><span class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Seg</span></div>
+    <footer class="shrink-0 w-full pt-1 pb-1">
+      <div class="flex justify-center items-center text-center space-x-4 text-primary">
+        <div><span class="block font-serif text-xl leading-none font-bold" id="days">00</span><span class="text-[8px] text-gray-400 uppercase font-bold tracking-wider">Días</span></div>
+        <div class="w-px h-6 bg-gray-200"></div>
+        <div><span class="block font-serif text-xl leading-none font-bold" id="hours">00</span><span class="text-[8px] text-gray-400 uppercase font-bold tracking-wider">Hs</span></div>
+        <div class="w-px h-6 bg-gray-200"></div>
+        <div><span class="block font-serif text-xl leading-none font-bold" id="minutes">00</span><span class="text-[8px] text-gray-400 uppercase font-bold tracking-wider">Min</span></div>
+        <div class="w-px h-6 bg-gray-200"></div>
+        <div><span class="block font-serif text-xl leading-none font-bold" id="seconds">00</span><span class="text-[8px] text-gray-400 uppercase font-bold tracking-wider">Seg</span></div>
       </div>
     </footer>
   </main>
 
   <!-- ========================================== -->
-  <!-- MODALES (Ventanas emergentes)              -->
+  <!-- MODALES                                    -->
   <!-- ========================================== -->
 
-  <!-- Modal RSVP (NUEVO CORREGIDO) -->
+  <!-- Modal RSVP -->
   <div id="modalRSVP" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm modal-enter transition-modal">
     <div class="bg-white rounded-lg shadow-2xl w-full max-w-md h-[80vh] relative flex flex-col">
         <button onclick="toggleModal('modalRSVP')" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 p-2 z-10 bg-white/80 rounded-full shadow-sm"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -232,15 +224,13 @@
             <h3 class="font-serif text-lg text-primary text-center font-bold">Confirmar Asistencia</h3>
         </div>
         <div class="flex-1 overflow-hidden relative bg-white">
-             <!-- Spinner de carga -->
              <div class="absolute inset-0 flex items-center justify-center text-gray-300 z-0" id="rsvpSpinner">
                 <i class="fa-solid fa-circle-notch fa-spin text-3xl"></i>
              </div>
-             <!-- Iframe del Formulario (con onload para ocultar spinner) -->
              <iframe id="iframeRSVP" src="" class="w-full h-full relative z-10" frameborder="0" marginheight="0" marginwidth="0" onload="document.getElementById('rsvpSpinner').style.display='none';">Cargando...</iframe>
         </div>
         <div class="p-2 text-center text-[10px] text-gray-400 border-t bg-gray-50 rounded-b-lg">
-            ¿Problemas para ver el formulario? <a href="#" onclick="window.open(CONFIG.formURL, '_blank')" class="underline text-primary font-bold">Abrir en nueva ventana</a>
+            ¿Problemas? <a href="#" onclick="window.open(CONFIG.formURL, '_blank')" class="underline text-primary font-bold">Abrir en nueva ventana</a>
         </div>
     </div>
   </div>
@@ -280,88 +270,45 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- LÓGICA Y CONFIGURACIÓN (EDITAR AQUÍ)       -->
+  <!-- JAVASCRIPT GLOBAL (Funciones Accesibles)   -->
   <!-- ========================================== -->
   <script>
-    /* -----------------------------------------------------
-       ZONA DE CONFIGURACIÓN - EDITA SOLO ESTA PARTE
-       -----------------------------------------------------
-    */
+    // -----------------------------------------------------
+    // VARIABLES Y FUNCIONES GLOBALES
+    // -----------------------------------------------------
+
     const CONFIG = {
-      // 1. Nombres y Frases
       nombres: "Luis R. & Marta M.",
       frase: "“Nos elegimos para siempre”",
       fechaTexto: "14 de Febrero · 2026",
       fechaLimite: "Fecha límite: 7 de Febrero 2026",
-      
-      // 2. Fechas para el sistema (Formato: Año, Mes-1, Día, Hora, Minuto)
-      // Nota: Meses van de 0 a 11 (Enero=0, Febrero=1, etc.)
       fechaBodaObjeto: new Date(2026, 1, 14, 12, 0, 0), 
-
-      // 3. Horarios (Solo texto para mostrar)
       horaCeremonia: "12:00 HRS",
       horaRecepcion: "13:00 HRS",
-
-      // 4. Enlaces (PEGA AQUÍ TUS URLS REALES)
-      // Enlace del formulario de Google Forms (URL COMPLETA INCRUSTADA)
-      formURL: "https://docs.google.com/forms/d/e/1FAIpQLSeslgqDz3KM_9Ea8DcuAM-aocgv7IOvFu8Ya4vESZK7wx2lQA/viewform?embedded=true", 
       
-      // Ubicaciones para Google Maps (Enlace directo)
+      formURL: "https://docs.google.com/forms/d/e/1FAIpQLSeslgqDz3KM_9Ea8DcuAM-aocgv7IOvFu8Ya4vESZK7wx2lQA/viewform?embedded=true", 
       ubicacionCeremonia: "https://maps.app.goo.gl/z4ncCPSHoEyiRca29", 
       ubicacionRecepcion: "https://maps.app.goo.gl/kb1Vhqc2aUZjLNke9",
-
-      // 5. Música (Enlace DIRECTO al archivo MP3)
-      // El archivo debe estar en la misma carpeta que este HTML
       musicaURL: "Somewhere over the Rainbow.mp3" 
     };
 
-    /* -----------------------------------------------------
-       VARIABLES GLOBALES (Necesarias para onclick)
-       -----------------------------------------------------
-    */
-    let sliderTrack, touchArea, dots, musicBtn, musicIcon, audio;
-    let currentIndex = 0;
-    let totalSlides = 0;
-    let autoSlideInterval;
-
-    /* -----------------------------------------------------
-       FUNCIONES ACCESIBLES DESDE HTML (Globales)
-       -----------------------------------------------------
-    */
-
-    function abrirFormulario() { 
-        // Esta función ya no se usa directamente para abrir ventana nueva,
-        // pero la mantengo como fallback si se llamara
-        window.open(CONFIG.formURL, '_blank'); 
-    }
-    
-    function abrirMapa(url) { window.open(url, '_blank'); }
-
-    function agendarCalendar() {
-      const start = CONFIG.fechaBodaObjeto.toISOString().replace(/-|:|\.\d\d\d/g, "").slice(0, 15); 
-      const endDate = new Date(CONFIG.fechaBodaObjeto.getTime() + (10 * 60 * 60 * 1000));
-      const end = endDate.toISOString().replace(/-|:|\.\d\d\d/g, "").slice(0, 15);
-      
-      const detalles = `Celebración de nuestra boda. ¡Los esperamos en ${CONFIG.ubicacionRecepcion}!`;
-      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Boda " + CONFIG.nombres)}&dates=${start}/${end}&details=${encodeURIComponent(detalles)}&location=${encodeURIComponent(CONFIG.ubicacionCeremonia)}`;
-      window.open(url, '_blank');
+    function abrirMapa(url) {
+      if (url) {
+        window.open(url, '_blank');
+      } else {
+        console.error("URL del mapa no definida");
+      }
     }
 
-    // Funciones del Modal
     function toggleModal(id) {
         const m = document.getElementById(id);
         const c = document.getElementById('mainContent');
-        
-        // Si abrimos el modal de RSVP, cargamos el iframe si está vacío
         if (id === 'modalRSVP') {
             const iframe = document.getElementById('iframeRSVP');
-            // Verificación segura: Si el src está vacío o es nulo
-            const currentSrc = iframe.getAttribute('src');
-            if (!currentSrc || currentSrc === "") {
+            if (iframe && !iframe.getAttribute('src')) {
                 iframe.src = CONFIG.formURL;
             }
         }
-
         if (m.classList.contains('modal-active')) {
             m.classList.remove('modal-active'); c.style.filter = "none";
         } else {
@@ -370,9 +317,13 @@
         }
     }
 
-    // Funciones del Reproductor de Música
     function toggleMusic() {
-        if (!audio) return; // Protección si no ha cargado
+        const audio = document.getElementById('bgMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicBtn = document.getElementById('musicBtn');
+        
+        if (!audio) return;
+        
         if (audio.paused) {
             audio.play();
             musicIcon.classList.remove('fa-play', 'ml-0.5'); 
@@ -384,47 +335,21 @@
         }
     }
 
-    // Funciones del Slider
-    function goToSlide(index) {
-        if (!sliderTrack) return; // Protección
-        if (index < 0) index = totalSlides - 1;
-        if (index >= totalSlides) index = 0;
-        currentIndex = index;
-        sliderTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
-        dots.forEach((dot, i) => {
-            if (i === currentIndex) {
-                dot.classList.remove('bg-white/60');
-                dot.classList.add('bg-white', 'opacity-100', 'scale-110');
-            } else {
-                dot.classList.add('bg-white/60');
-                dot.classList.remove('bg-white', 'opacity-100', 'scale-110');
-            }
-        });
+    function agendarCalendar() {
+      const start = CONFIG.fechaBodaObjeto.toISOString().replace(/-|:|\.\d\d\d/g, "").slice(0, 15); 
+      const endDate = new Date(CONFIG.fechaBodaObjeto.getTime() + (10 * 60 * 60 * 1000));
+      const end = endDate.toISOString().replace(/-|:|\.\d\d\d/g, "").slice(0, 15);
+      const detalles = `Celebración de nuestra boda. ¡Los esperamos en ${CONFIG.ubicacionRecepcion}!`;
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Boda " + CONFIG.nombres)}&dates=${start}/${end}&details=${encodeURIComponent(detalles)}&location=${encodeURIComponent(CONFIG.ubicacionCeremonia)}`;
+      window.open(url, '_blank');
     }
 
-    function startAutoSlide() { 
-        stopAutoSlide(); 
-        autoSlideInterval = setInterval(() => { goToSlide(currentIndex + 1); }, 3500); 
-    }
-    
-    function stopAutoSlide() { 
-        if (autoSlideInterval) clearInterval(autoSlideInterval); 
-    }
-
-    /* -----------------------------------------------------
-       INICIALIZACIÓN SEGURA (Al cargar la página)
-       -----------------------------------------------------
-    */
+    // -----------------------------------------------------
+    // LÓGICA DE INICIALIZACIÓN
+    // -----------------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. Asignar variables globales
-        sliderTrack = document.getElementById('sliderTrack');
-        touchArea = document.getElementById('touchArea');
-        dots = document.querySelectorAll('#sliderDots button');
-        musicBtn = document.getElementById('musicBtn');
-        musicIcon = document.getElementById('musicIcon');
-        audio = document.getElementById('bgMusic');
-
-        // 2. Asignar Textos de Configuración
+        
+        // 1. Asignar Textos
         document.getElementById('txtNombres').innerText = CONFIG.nombres;
         document.getElementById('txtFechaTexto').innerText = CONFIG.fechaTexto;
         document.getElementById('txtFrase').innerText = CONFIG.frase;
@@ -432,13 +357,42 @@
         document.getElementById('txtHoraCeremonia').innerText = CONFIG.horaCeremonia;
         document.getElementById('txtHoraRecepcion').innerText = CONFIG.horaRecepcion;
         
+        const audio = document.getElementById('bgMusic');
         if (audio) audio.src = CONFIG.musicaURL;
 
-        // 3. Inicializar Slider (Solo si existe)
-        if (sliderTrack) {
-            totalSlides = sliderTrack.children.length; // Cálculo dinámico seguro
-            startAutoSlide();
+        // 2. Inicializar Carrusel
+        const sliderTrack = document.getElementById('sliderTrack');
+        const dots = document.querySelectorAll('#sliderDots button');
+        const touchArea = document.getElementById('touchArea');
+        let currentIndex = 0;
+        let autoSlideInterval;
 
+        function goToSlide(index) {
+            if (!sliderTrack) return;
+            const totalSlides = sliderTrack.children.length;
+            if (index < 0) index = totalSlides - 1;
+            if (index >= totalSlides) index = 0;
+            currentIndex = index;
+            sliderTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach((dot, i) => {
+                if (i === currentIndex) {
+                    dot.classList.remove('bg-white/60'); dot.classList.add('bg-white', 'opacity-100', 'scale-110');
+                } else {
+                    dot.classList.add('bg-white/60'); dot.classList.remove('bg-white', 'opacity-100', 'scale-110');
+                }
+            });
+        }
+
+        function startAutoSlide() { 
+            stopAutoSlide(); 
+            autoSlideInterval = setInterval(() => { goToSlide(currentIndex + 1); }, 3500); 
+        }
+        function stopAutoSlide() { 
+            if (autoSlideInterval) clearInterval(autoSlideInterval); 
+        }
+
+        if (sliderTrack) {
+            startAutoSlide();
             // Eventos Táctiles
             let startX = 0; let endX = 0;
             if (touchArea) {
@@ -453,39 +407,26 @@
             }
         }
 
-        // 4. Estrategia de Autoplay Agresivo (Compatible Safari/iOS)
+        // 3. Autoplay de Música
         if (audio) {
             audio.volume = 0.5;
-            
-            // Intento 1: Directo al cargar (Funcionará si el usuario ya interactuó con el dominio antes)
+            const musicIcon = document.getElementById('musicIcon');
             const attemptPlay = () => {
-                const playPromise = audio.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        // Éxito: Cambiar icono a Pausa
+                audio.play().then(() => {
+                    if (musicIcon) {
                         musicIcon.classList.remove('fa-play', 'ml-0.5'); 
                         musicIcon.classList.add('fa-pause');
-                        
-                        // Ya no necesitamos escuchar clics para iniciar porque ya suena
-                        document.removeEventListener('click', attemptPlay);
-                        document.removeEventListener('touchstart', attemptPlay);
-                    }).catch(() => {
-                        console.log("Autoplay bloqueado (esperando primera interacción)");
-                    });
-                }
+                    }
+                    document.removeEventListener('click', attemptPlay);
+                    document.removeEventListener('touchstart', attemptPlay);
+                }).catch(() => { /* Autoplay bloqueado */ });
             };
-
-            // Ejecutar intento al cargar
             attemptPlay();
-
-            // Intento 2: "Trampa" de primera interacción
-            // En cuanto el usuario toque CUALQUIER parte de la pantalla, intentamos dar play.
-            // La opción { once: true } hace que el evento se elimine solo después de ejecutarse una vez.
             document.addEventListener('click', attemptPlay, { once: true });
             document.addEventListener('touchstart', attemptPlay, { once: true });
         }
 
-        // 5. Iniciar Contador
+        // 4. Contador
         function actualizarContador() {
             const diff = CONFIG.fechaBodaObjeto - new Date();
             if (diff <= 0) return;
